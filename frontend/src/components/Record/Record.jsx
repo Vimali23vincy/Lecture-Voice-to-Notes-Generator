@@ -189,15 +189,9 @@ const Record = () => {
   const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('recent_summaries');
+    const saved = sessionStorage.getItem('recent_summaries');
     if (saved) setRecentSummaries(JSON.parse(saved));
   }, []);
-
-  const clearHistory = () => {
-    setRecentSummaries([]);
-    localStorage.removeItem('recent_summaries');
-    setStatusMessage("🗑️ History cleared!");
-  };
 
   const saveToRecent = (text, type) => {
     const newItem = {
@@ -208,7 +202,7 @@ const Record = () => {
     };
     const updated = [newItem, ...recentSummaries].slice(0, 5);
     setRecentSummaries(updated);
-    localStorage.setItem('recent_summaries', JSON.stringify(updated));
+    sessionStorage.setItem('recent_summaries', JSON.stringify(updated));
   };
 
   const {
@@ -466,10 +460,7 @@ const Record = () => {
             <FontAwesomeIcon icon={faBrain} className="sidebar-logo-icon" />
             <h3>Recent Notes</h3>
           </div>
-          <div className="sidebar-controls">
-            <button className="clear-all-btn" onClick={clearHistory}>Clear All</button>
-            <button className="close-sidebar" onClick={() => setShowSidebar(false)}>×</button>
-          </div>
+          <button className="close-sidebar" onClick={() => setShowSidebar(false)}>×</button>
         </div>
         <div className="recent-list">
           {recentSummaries.length === 0 ? (

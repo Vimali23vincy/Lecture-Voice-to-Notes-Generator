@@ -246,22 +246,16 @@ const Summarization = () => {
   const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('recent_summaries');
+    const saved = sessionStorage.getItem('recent_summaries');
     if (saved) setRecentSummaries(JSON.parse(saved));
   }, []);
-
-  const clearHistory = () => {
-    setRecentSummaries([]);
-    localStorage.removeItem('recent_summaries');
-    setStatusMessage("🗑️ History cleared!");
-  };
 
   const saveToRecent = (text, type, source) => {
     const title = type === 'link' ? (source.includes('youtube.com') || source.includes('youtu.be') ? 'YouTube Lecture' : 'Web Resource') : 'Live Recording';
     const newItem = { id: Date.now(), title, date: 'Today', summary: text, source };
     const updated = [newItem, ...recentSummaries].slice(0, 5);
     setRecentSummaries(updated);
-    localStorage.setItem('recent_summaries', JSON.stringify(updated));
+    sessionStorage.setItem('recent_summaries', JSON.stringify(updated));
   };
 
   const handleInputChange = (event) => setLink(event.target.value);
@@ -391,10 +385,7 @@ const Summarization = () => {
             <FontAwesomeIcon icon={faBrain} className="sidebar-logo-icon" />
             <h3>Recent Notes</h3>
           </div>
-          <div className="sidebar-controls">
-            <button className="clear-all-btn" onClick={clearHistory}>Clear All</button>
-            <button className="close-sidebar" onClick={() => setShowSidebar(false)}>×</button>
-          </div>
+          <button className="close-sidebar" onClick={() => setShowSidebar(false)}>×</button>
         </div>
         <div className="recent-list">
           {recentSummaries.length === 0 ? (
