@@ -285,7 +285,7 @@ const Summarization = () => {
       setShowQuiz(false);
       setQuizQuestions([]);
       setStatusMessage("🧠 AI is generating your Smart Notes...");
-      const endpoint = process.env.NODE_ENV === 'development' ? '/api/link-summary-dev' : '/api/link-summary';
+      const endpoint = '/api/link-summary';
       const response = await axios.post(endpoint, { link });
       const fullText = response.data.summary;
       setSummarization(fullText);

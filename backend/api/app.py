@@ -101,4 +101,4 @@ api.add_resource(LinkSummary, '/api/link-summary')
 api.add_resource(RecordSummary, '/api/record-summary')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 7860)))

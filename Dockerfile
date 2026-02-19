@@ -33,8 +33,8 @@ COPY --from=build-stage /frontend/build /frontend/build
 WORKDIR /app
 
 # Environment variables
-ENV PORT=8000
-EXPOSE 8000
+ENV PORT=7860
+EXPOSE 7860
 
 # Run the app with a longer timeout for AI processing
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "1", "--threads", "2", "--timeout", "600", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:7860", "--workers", "1", "--threads", "2", "--timeout", "600", "app:app"]
