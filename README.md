@@ -1,11 +1,3 @@
----
-title: SmartNotes - AI Powered Notes Generator
-emoji: 🧠
-colorFrom: indigo
-colorTo: blue
-sdk: docker
-app_port: 7860
----
 
 # 🧠 SmartNotes: AI-Powered Lecture Notes Generator
 
@@ -39,10 +31,6 @@ Record your professor or speaker in real-time:
 - Instant feedback with "Correct/Wrong" indicators.
 - Final score calculation and evaluation.
 
-### 🔒 4. Zero-History Privacy
-- Built for privacy. History is stored only in the current session.
-- **Auto-Refresh**: All recent notes and searches are wiped the moment you refresh or reopen the site, ensuring that no user data is left behind for others to see.
-
 ---
 
 ## 🚀 Technology Stack
@@ -62,6 +50,7 @@ Record your professor or speaker in real-time:
 ### Prerequisites
 - Node.js (v18+)
 - Python (v3.11+)
+- whisper
 - Docker (Optional)
 
 ### Step 1: Clone the Repository
@@ -116,9 +105,6 @@ This project is optimized for **Hugging Face Spaces** using Docker.
 ```
 
 ---
-
-## 🤝 Contributing
-Contributions are welcome! Feel free to open a Pull Request or report issues.
 
 ## 📝 License
 This project is licensed under the MIT License.
