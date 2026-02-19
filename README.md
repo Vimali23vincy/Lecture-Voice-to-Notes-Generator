@@ -1,3 +1,12 @@
+---
+title: Lecture Voice to Notes
+emoji: 📝
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+app_port: 7860
+---
+
 # SmartNotes
 
 This repository contains the codebase and resources for an AI-powered system to convert lecture speech (live or recorded) into student-friendly notes. The project aims to enhance learning experiences by automating the process of note-taking during lectures and leveraging advanced natural language processing (NLP) and machine learning (ML) techniques.
