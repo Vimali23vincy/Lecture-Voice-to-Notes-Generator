@@ -1,0 +1,43 @@
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #333;
+  --header-bg: #ffffff;
+  --card-bg: #ffffff;
+  --accent-color: #6056ff;
+  --accent-hover: #8a83ed;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --nav-link-color: #515257;
+  --transition-speed: 0.3s;
+}
+
+[data-theme='dark'] {
+  --bg-color: #0f172a;
+  --text-color: #f8fafc;
+  --header-bg: #1e293b;
+  --card-bg: #1e293b;
+  --accent-color: #818cf8;
+  --accent-hover: #6366f1;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --nav-link-color: #cbd5e1;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.app-wrapper {
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
