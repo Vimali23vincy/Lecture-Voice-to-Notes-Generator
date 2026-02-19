@@ -1,4 +1,6 @@
 import os
+import re
+import traceback
 from flask import Flask, request, render_template, send_from_directory, make_response
 from flask_restful import Resource, Api
 from flask_cors import CORS
@@ -7,27 +9,23 @@ from generate_audio import generate_audio
 from youtube_transcript_api import YouTubeTranscriptApi
 from summarization_model import call_summarization_model
 from transcribe import transcribe_lecture
-import traceback
 
 # Configure Flask to serve the React build folder
 app = Flask(__name__, 
             static_folder=os.path.abspath("../../frontend/build"),
             template_folder=os.path.abspath("../../frontend/build"))
 
-# Disable static file caching so new builds are always loaded
+# Disable static file caching
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-
 CORS(app)
 api = Api(app)
 
-
-@app.route("/", defaults={'path': ''})
+@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-        response = make_response(send_from_directory(app.static_folder, path))
-        # Allow caching for hashed JS/CSS files (they change name on rebuild)
-        if path.startswith('static/'):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        response = send_from_directory(app.static_folder, path)
+        if any(path.endswith(ext) for ext in ['.js', '.css', '.png', '.jpg', '.svg', '.json']):
             response.headers['Cache-Control'] = 'public, max-age=31536000'
         else:
             response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate'
@@ -39,8 +37,6 @@ def serve(path):
         response.headers['Expires'] = '0'
         return response
 
-
-
 class LinkSummary(Resource):
     def post(self):
         """Summarizes a YouTube lecture given a link."""
@@ -50,27 +46,26 @@ class LinkSummary(Resource):
             return {'error': 'Missing "link" in request body'}, 400
 
         try:
+            # Enhanced video ID extraction
             video_id = None
-            if 'v=' in youtube_link:
-                video_id = youtube_link.split('v=')[1].split('&')[0]
-            elif 'youtu.be/' in youtube_link:
-                video_id = youtube_link.split('youtu.be/')[1].split('?')[0]
+            regex = r"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^\"&?\/\s]{11})"
+            match = re.search(regex, youtube_link)
+            if match:
+                video_id = match.group(1)
             
             transcribed_text = ""
             if video_id:
                 try:
-                    transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
+                    # Specific language order to increase success chance
+                    transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'en-US', 'en-GB'])
                     transcribed_text = " ".join([t['text'] for t in transcript_list])
-                    app.logger.info("Fetched transcript directly from YouTube API")
                 except Exception as e:
-                    app.logger.warning(f"Failed to fetch transcript directly: {e}")
+                    app.logger.error(f"Transcript fetch failed: {str(e)}")
 
             if not transcribed_text:
-                # Fallback to generating audio and transcribing
-                audio_data = generate_audio(youtube_link)
-                transcribed_text = transcribe_lecture(audio_data)
+                return {'error': 'Could not get transcript from YouTube. The video might not have captions enabled, or the server is blocked.'}, 400
 
-            # Summarize the transcribed text using the fine-tuned BART model
+            # Summarize the transcribed text
             summary = call_summarization_model(transcribed_text)
 
             # Return the summary as a JSON response
@@ -83,20 +78,16 @@ class LinkSummary(Resource):
     def get(self):
         return {'msg': "Welcome to YouTube Summary Page"}
 
-
 class RecordSummary(Resource):
     def post(self):
-        """Transcribes an audio file and summarizes the transcribed text using a fine-tuned BART model."""
+        """Transcribes an audio file and summarizes the transcribed text."""
         transcribed_text = request.json.get('finalTranscript')
 
         if not transcribed_text:
             return {'error': 'Missing "finalTranscript" in request body'}, 400
 
         try:
-            # Summarize the transcribed text using the fine-tuned BART model
             summary = call_summarization_model(transcribed_text)
-
-            # Return the summary as a JSON response
             return {'summary': summary}
         except Exception as e:
             app.logger.exception('Error processing record-summary')
@@ -106,40 +97,8 @@ class RecordSummary(Resource):
     def get(self):
         return {'msg': "Welcome to Live Audio Summary Page"}
 
-
 api.add_resource(LinkSummary, '/api/link-summary')
 api.add_resource(RecordSummary, '/api/record-summary')
 
-
-class Echo(Resource):
-    def post(self):
-        # quick echo endpoint for testing frontend connectivity
-        return request.json
-
-    def get(self):
-        return {'msg': 'Echo endpoint active'}
-
-
-api.add_resource(Echo, '/api/echo')
-
-
-class LinkSummaryDev(Resource):
-    def post(self):
-        # lightweight fake summary for frontend development/testing
-        data = request.json or {}
-        link = data.get('link', '')
-        return {'summary': f'FAKE SUMMARY (dev): received link "{link}"'}
-
-
-class RecordSummaryDev(Resource):
-    def post(self):
-        data = request.json or {}
-        transcript = data.get('finalTranscript', '')
-        return {'summary': f'FAKE SUMMARY (dev): received transcript length {len(transcript)}'}
-
-
-api.add_resource(LinkSummaryDev, '/api/link-summary-dev')
-api.add_resource(RecordSummaryDev, '/api/record-summary-dev')
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 7860)))
