@@ -125,4 +125,6 @@ webencodings==0.5.1
 Werkzeug==3.0.1
 xxhash==3.4.1
 yarg==0.1.9
+openai-whisper
+yt-dlp
 yarl==1.9.4
