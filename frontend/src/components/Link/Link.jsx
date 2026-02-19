@@ -294,7 +294,8 @@ const Summarization = () => {
       saveToRecent(fullText, 'link', link);
       typewriter(fullText);
     } catch (error) {
-      setStatusMessage("❌ Summary failed");
+      const errorMsg = error.response?.data?.error || error.message || "Summary failed";
+      setStatusMessage(`❌ Error: ${errorMsg}`);
     } finally {
       setLoading(false);
     }
