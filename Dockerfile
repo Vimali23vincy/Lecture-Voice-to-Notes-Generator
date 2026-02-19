@@ -36,5 +36,5 @@ WORKDIR /app
 ENV PORT=7860
 EXPOSE 7860
 
-# Run the app
-CMD ["gunicorn", "--bind", "0.0.0.0:7860", "--workers", "1", "--threads", "8", "--timeout", "0", "app:app"]
+# Run the app with a longer timeout for AI processing
+CMD ["gunicorn", "--bind", "0.0.0.0:7860", "--workers", "1", "--threads", "2", "--timeout", "600", "app:app"]
