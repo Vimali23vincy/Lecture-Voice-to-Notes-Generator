@@ -128,3 +128,4 @@ yarg==0.1.9
 openai-whisper
 yt-dlp
 yarl==1.9.4
+youtube-transcript-api

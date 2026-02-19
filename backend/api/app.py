@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 
 from generate_audio import generate_audio
+from youtube_transcript_api import YouTubeTranscriptApi
 from summarization_model import call_summarization_model
 from transcribe import transcribe_lecture
 import traceback
@@ -49,11 +50,25 @@ class LinkSummary(Resource):
             return {'error': 'Missing "link" in request body'}, 400
 
         try:
-            # Generate audio from the YouTube link
-            audio_data = generate_audio(youtube_link)
+            video_id = None
+            if 'v=' in youtube_link:
+                video_id = youtube_link.split('v=')[1].split('&')[0]
+            elif 'youtu.be/' in youtube_link:
+                video_id = youtube_link.split('youtu.be/')[1].split('?')[0]
+            
+            transcribed_text = ""
+            if video_id:
+                try:
+                    transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
+                    transcribed_text = " ".join([t['text'] for t in transcript_list])
+                    app.logger.info("Fetched transcript directly from YouTube API")
+                except Exception as e:
+                    app.logger.warning(f"Failed to fetch transcript directly: {e}")
 
-            # Transcribe the audio
-            transcribed_text = transcribe_lecture(audio_data)
+            if not transcribed_text:
+                # Fallback to generating audio and transcribing
+                audio_data = generate_audio(youtube_link)
+                transcribed_text = transcribe_lecture(audio_data)
 
             # Summarize the transcribed text using the fine-tuned BART model
             summary = call_summarization_model(transcribed_text)
