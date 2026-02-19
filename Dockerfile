@@ -7,7 +7,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # --- Phase 2: Setup Backend ---
-FROM python:3.11
+FROM python:3.11-slim
 WORKDIR /app
 
 # Install system dependencies for audio/ffmpeg
