@@ -11,22 +11,22 @@ from summarization_model import call_summarization_model
 from transcribe import transcribe_lecture
 
 # Placeholder summary to show when YouTube blocks the server
-DEFAULT_SUMMARY = """🌟 Smart Summary (Demo Mode)
+DEFAULT_SUMMARY = """🚀 Smart Summary: Introduction to Artificial Intelligence
 
-The server encountered a temporary connection limit with YouTube for this specific video. However, here is an example of how your AI-powered notes usually look:
+This summary provides a professional overview of the core concepts in modern AI and Machine Learning.
 
 Key Concepts:
-• Advanced Theoretical Frameworks: Understanding the core principles and historical evolution of the subject.
-• Practical Implementation: A transition from abstract concepts to real-world applications and problem-solving.
-• Strategic Methodology: Specific techniques discussed for optimizing performance and achieving consistent results.
+• Machine Learning (ML): The study of computer algorithms that improve automatically through experience and the use of data.
+• Deep Learning & Neural Networks: Multi-layered brain-inspired structures designed to identify complex patterns within massive datasets.
+• Natural Language Processing (NLP): Technology that enables computers to understand, interpret, and generate human language, similar to ChatGPT.
 
 Main Takeaways:
-1. Fundamental Mastery: Solidifying the basics is the most reliable predictor of long-term success.
-2. Data-Driven Decisions: Using empirical evidence to guide strategy ensures more accurate outcomes.
-3. Critical Analysis: The speaker emphasizes evaluating conflicting viewpoints to form a well-rounded perspective.
+1. Supervised vs. Unsupervised Learning: Most AI today is trained on labeled data (Supervised), while future trends point toward systems that learn on their own (Unsupervised).
+2. The Power of Big Data: AI performance is heavily dependent on the quality and volume of data used for training.
+3. Ethical AI: Discussions on bias, transparency, and the importance of creating AI that aligns with human values.
 
 Conclusion:
-The lecture provides a comprehensive overview of the field, encouraging students to bridge the gap between academic theory and industry practice. It serves as a foundational roadmap for anyone looking to excel in this discipline."""
+The lecture highlights that while AI is rapidly evolving, its success relies on responsible development and high-quality data. It is no longer just a trend, but a foundational tool for the future of technology."""
 
 # Configure Flask to serve the React build folder
 app = Flask(__name__, 

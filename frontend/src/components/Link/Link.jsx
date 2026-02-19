@@ -267,7 +267,7 @@ const Summarization = () => {
     const speed = text.length > 500 ? 5 : 15;
     const words = text.split(" ");
     const interval = setInterval(() => {
-      if (i < words.length) {
+      if (i < words.length && words[i] !== undefined) {
         setDisplayedSummary((prev) => prev + (i === 0 ? "" : " ") + words[i]);
         i++;
       } else {
