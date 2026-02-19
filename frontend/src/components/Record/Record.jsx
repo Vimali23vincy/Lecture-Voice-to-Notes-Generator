@@ -568,77 +568,7 @@ const Record = () => {
               <button className="copy-full-btn" onClick={() => { navigator.clipboard.writeText(summarization); setCopied(true); setTimeout(() => setCopied(false), 2000) }}>
                 {copied ? "Copied! ✅" : "Copy Full Text 📋"}
               </button>
-              <button className="quiz-trigger-btn" onClick={handleStartQuiz}>
-                <FontAwesomeIcon icon={faQuestionCircle} /> Take a Quiz
-              </button>
             </div>
-          </div>
-        )}
-
-        {/* ===== QUIZ SECTION ===== */}
-        {showQuiz && (
-          <div className="quiz-section fade-in">
-            <div className="quiz-header">
-              <FontAwesomeIcon icon={faQuestionCircle} className="quiz-icon" />
-              <h2>Knowledge Check</h2>
-            </div>
-
-            {!quizDone ? (
-              <div className="quiz-card animate-pop">
-                <div className="quiz-progress">
-                  <span>Question {currentQ + 1} of {quizQuestions.length}</span>
-                  <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${((currentQ) / quizQuestions.length) * 100}%` }}></div>
-                  </div>
-                </div>
-
-                <p className="quiz-question">{quizQuestions[currentQ]?.question}</p>
-
-                <div className="quiz-options">
-                  {quizQuestions[currentQ]?.options.map((opt, i) => {
-                    let cls = 'quiz-option';
-                    if (answered) {
-                      if (opt === quizQuestions[currentQ].correct) cls += ' correct';
-                      else if (opt === selectedAnswer) cls += ' wrong';
-                    } else if (selectedAnswer === opt) {
-                      cls += ' selected';
-                    }
-                    return (
-                      <button key={i} className={cls} onClick={() => handleSelectAnswer(opt)}>
-                        <span className="option-letter">{String.fromCharCode(65 + i)}</span>
-                        <span>{opt}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {answered && (
-                  <div className={`answer-feedback ${selectedAnswer === quizQuestions[currentQ].correct ? 'correct-fb' : 'wrong-fb'}`}>
-                    {selectedAnswer === quizQuestions[currentQ].correct
-                      ? '✅ Correct! Well done!'
-                      : `❌ Wrong! The answer is: "${quizQuestions[currentQ].correct}"`}
-                  </div>
-                )}
-
-                {answered && (
-                  <button className="quiz-next-btn" onClick={handleNext}>
-                    {currentQ + 1 >= quizQuestions.length ? 'See Results 🏆' : 'Next Question →'}
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="quiz-result animate-pop">
-                <div className="result-emoji">{getScoreEmoji().emoji}</div>
-                <h3 style={{ color: getScoreEmoji().color }}>{getScoreEmoji().label}</h3>
-                <p className="score-text">You scored <strong>{score}</strong> out of <strong>{quizQuestions.length}</strong></p>
-                <div className="score-bar">
-                  <div className="score-fill" style={{ width: `${(score / quizQuestions.length) * 100}%`, background: getScoreEmoji().color }}></div>
-                </div>
-                <button className="retake-btn" onClick={handleRetakeQuiz}>
-                  <FontAwesomeIcon icon={faRedo} /> Retake Quiz
-                </button>
-              </div>
-            )}
           </div>
         )}
       </div>
