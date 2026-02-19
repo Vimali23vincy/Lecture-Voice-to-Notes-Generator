@@ -18,12 +18,12 @@ def generate_audio(video_url):
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '128', # Lower quality for faster processing
+            'preferredquality': '128',
         }],
         'quiet': True,
         'no_warnings': True,
         'nocheckcertificate': True,
-        'extract_flat': False,
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
     }
     
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
