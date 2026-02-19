@@ -246,8 +246,9 @@ const Summarization = () => {
   const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('recent_summaries');
-    if (saved) setRecentSummaries(JSON.parse(saved));
+    // Force clear any old legacy data once
+    localStorage.removeItem('recent_summaries');
+    sessionStorage.removeItem('recent_summaries');
   }, []);
 
   const saveToRecent = (text, type, source) => {
@@ -255,7 +256,6 @@ const Summarization = () => {
     const newItem = { id: Date.now(), title, date: 'Today', summary: text, source };
     const updated = [newItem, ...recentSummaries].slice(0, 5);
     setRecentSummaries(updated);
-    sessionStorage.setItem('recent_summaries', JSON.stringify(updated));
   };
 
   const handleInputChange = (event) => setLink(event.target.value);
