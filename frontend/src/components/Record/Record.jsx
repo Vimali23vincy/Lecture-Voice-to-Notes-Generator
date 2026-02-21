@@ -176,7 +176,10 @@ const Record = () => {
   const [realTimeFlashcards, setRealTimeFlashcards] = useState([]);
   const [accumulatedTranscript, setAccumulatedTranscript] = useState("");
   const [viewMode, setViewMode] = useState("full");
-  const [recentSummaries, setRecentSummaries] = useState([]);
+  const [recentSummaries, setRecentSummaries] = useState(() => {
+    const saved = sessionStorage.getItem('smart_notes_recents');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [showSidebar, setShowSidebar] = useState(false);
 
   // Quiz States
@@ -189,10 +192,8 @@ const Record = () => {
   const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
-    // Force clear any old legacy data once
-    localStorage.removeItem('recent_summaries');
-    sessionStorage.removeItem('recent_summaries');
-  }, []);
+    sessionStorage.setItem('smart_notes_recents', JSON.stringify(recentSummaries));
+  }, [recentSummaries]);
 
   const saveToRecent = (text, type) => {
     const newItem = {
@@ -201,7 +202,7 @@ const Record = () => {
       date: 'Today',
       summary: text
     };
-    const updated = [newItem, ...recentSummaries].slice(0, 5);
+    const updated = [newItem, ...recentSummaries].slice(0, 8);
     setRecentSummaries(updated);
   };
 
@@ -322,7 +323,7 @@ const Record = () => {
       setShowQuiz(false);
       setQuizQuestions([]);
       setStatusMessage("🧠 AI is processing your live notes...");
-      const endpoint = process.env.NODE_ENV === 'development' ? '/api/record-summary-dev' : '/api/record-summary';
+      const endpoint = '/api/record-summary';
       const response = await axios.post(endpoint, { finalTranscript: fullLiveTranscript });
       const fullText = response.data.summary;
 
@@ -467,7 +468,7 @@ const Record = () => {
             <div className="empty-recent">No recent notes yet...</div>
           ) : (
             recentSummaries.map((item) => (
-              <div key={item.id} className="recent-item animate-pop" onClick={() => { setSummarization(item.summary); typewriter(item.summary); setShowSidebar(false); }}>
+              <div key={item.id} className="recent-item animate-pop" onClick={() => { setSummarization(item.summary); typewriter(item.summary); setShowSidebar(false); setShowQuiz(false); }}>
                 <div className="recent-icon">🕒</div>
                 <div className="recent-info">
                   <span className="recent-title">{item.title}</span>
