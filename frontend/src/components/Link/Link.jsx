@@ -233,7 +233,10 @@ const Summarization = () => {
   const [copied, setCopied] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [viewMode, setViewMode] = useState("full");
-  const [recentSummaries, setRecentSummaries] = useState([]);
+  const [recentSummaries, setRecentSummaries] = useState(() => {
+    const saved = sessionStorage.getItem('smart_notes_recents');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [showSidebar, setShowSidebar] = useState(false);
 
   // Quiz States
@@ -246,15 +249,13 @@ const Summarization = () => {
   const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
-    // Force clear any old legacy data once
-    localStorage.removeItem('recent_summaries');
-    sessionStorage.removeItem('recent_summaries');
-  }, []);
+    sessionStorage.setItem('smart_notes_recents', JSON.stringify(recentSummaries));
+  }, [recentSummaries]);
 
   const saveToRecent = (text, type, source) => {
     const title = type === 'link' ? (source.includes('youtube.com') || source.includes('youtu.be') ? 'YouTube Lecture' : 'Web Resource') : 'Live Recording';
     const newItem = { id: Date.now(), title, date: 'Today', summary: text, source };
-    const updated = [newItem, ...recentSummaries].slice(0, 5);
+    const updated = [newItem, ...recentSummaries].slice(0, 8);
     setRecentSummaries(updated);
   };
 

@@ -66,9 +66,15 @@ Finally, the power of digital marketing lies in its measurability. Through tools
 ]
 
 # Configure Flask to serve the React build folder
+# Try Docker path first, fallback to local path
+static_folder_path = os.path.abspath("frontend_build")
+if not os.path.exists(static_folder_path):
+    static_folder_path = os.path.abspath("../../frontend/build")
+
 app = Flask(__name__, 
-            static_folder=os.path.abspath("../../frontend/build"),
-            template_folder=os.path.abspath("../../frontend/build"))
+            static_folder=static_folder_path,
+            template_folder=static_folder_path)
+
 
 # Disable static file caching
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
