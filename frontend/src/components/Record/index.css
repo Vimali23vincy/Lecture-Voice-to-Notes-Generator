@@ -592,3 +592,105 @@
     opacity: 1;
   }
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .timer-display {
+    font-size: 1.8rem;
+  }
+
+  .status-container {
+    padding: 20px;
+  }
+
+  .waveform-container {
+    height: 40px;
+  }
+
+  .control-btn {
+    width: 65px;
+    height: 65px;
+    font-size: 20px;
+  }
+
+  .control-btn.secondary {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .btn-group {
+    gap: 15px;
+  }
+
+  .transcript-box {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .highlighted-content {
+    font-size: 1rem;
+  }
+
+  .main-action {
+    padding: 18px;
+    font-size: 1.1rem;
+    border-radius: 16px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .summary-content-container {
+    padding: 20px;
+  }
+
+  .summary-full-text p {
+    font-size: 1rem;
+  }
+
+  .bullet-item {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .sidebar-toggle-btn {
+    left: 15px;
+    top: 85px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .sidebar {
+    width: 260px;
+  }
+
+  .rt-flashcards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .timer-display {
+    font-size: 1.5rem;
+  }
+
+  .box-header {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+}

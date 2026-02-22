@@ -77,3 +77,44 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .home-container {
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  .home-container h1 {
+    font-size: 2.8rem;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+  }
+
+  .options-list {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .option-link {
+    padding: 14px 24px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-container h1 {
+    font-size: 2.2rem;
+  }
+
+  .home-container {
+    margin: 20px auto;
+  }
+}

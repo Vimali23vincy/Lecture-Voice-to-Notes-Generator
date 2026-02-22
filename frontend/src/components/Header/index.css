@@ -81,3 +81,46 @@
   border-color: #475569;
   color: white;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 15px;
+    height: 70px !important;
+  }
+
+  .logo {
+    height: 50px !important;
+  }
+
+  .nav-links {
+    gap: 8px;
+  }
+
+  .nav-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  .theme-toggle {
+    padding: 6px 10px;
+    font-size: 1rem;
+    margin-left: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 10px;
+  }
+
+  .nav-btn {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+
+  .logo {
+    height: 40px !important;
+  }
+}

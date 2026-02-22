@@ -1,13 +1,3 @@
-
----
-title: SmartNotes - AI Powered Notes Generator
-emoji: 🧠
-colorFrom: indigo
-colorTo: blue
-sdk: docker
-app_port: 7860
----
-
 # 🧠 SmartNotes: AI-Powered Lecture Notes Generator
 
 **SmartNotes** is an advanced AI-driven application designed to transform educational content into concise, actionable study materials. Whether it's a live classroom lecture or a YouTube video, SmartNotes leverages state-of-the-art NLP models to transcribe, summarize, and even quiz you on the content.
